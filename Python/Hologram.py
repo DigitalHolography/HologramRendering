@@ -2,9 +2,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 
-def hologram1FFT(E : np.ndarray, nx : float, ny: float, pasx: float, pasy: float, lambd: float, z: float):
-    x = np.zeros(nx)
-    y = np.zeros(ny)
+def hologram1FFT(E: np.ndarray, nx: float, ny: float, pasx: float, pasy: float, lambd: float, z: float):
 
     x = (np.arange(nx) - round(nx / 2)) * pasx
     y = (np.arange(ny) - round(ny / 2)) * pasy
@@ -13,14 +11,16 @@ def hologram1FFT(E : np.ndarray, nx : float, ny: float, pasx: float, pasy: float
 
     phaseQ = np.exp(1j * np.pi / (lambd * z) * (X**2 + Y**2))
     C = E * phaseQ
-    D = np.fft.fft2(np.fft.ifftshift(np.transpose(C)))
-    OutputField = D * np.exp((-2 * 1j * np.pi * z / lambd) / (1j * lambd * z))
+    # D = np.fft.fft2(np.fft.ifftshift(np.ndarray.transpose(C)))
+    D = np.fft.fft2(np.fft.ifftshift(C))
+    OutputField = D * np.exp((2 * 1j * np.pi * z / lambd)) / (1j * lambd * z)
+    # OutputField = (np.fft.ifftshift(OutputField))
 
+    # return np.real(phaseQ)
     return OutputField
 
 
-
-def hologram2FFT(E : np.ndarray, nx : float, ny: float, pasx: float, pasy: float, lambd: float, z: float):
+def hologram2FFT(E: np.ndarray, nx: float, ny: float, pasx: float, pasy: float, lambd: float, z: float):
 
     pasu = 1/(nx*pasx)
     pasv = 1/(ny*pasy)
@@ -29,7 +29,7 @@ def hologram2FFT(E : np.ndarray, nx : float, ny: float, pasx: float, pasy: float
     v = (np.arange(ny) - round(ny / 2)) * pasv
 
     U, V = np.meshgrid(np.fft.ifftshift(u), np.fft.ifftshift(v))
-    H = np.exp(2 * 1j * np.pi * z / lambd * np.sqrt(1 - (lambd**2) * (U**2)-(lambd**2) * (V**2)) / (1j * lambd * z))
+    H = np.exp(2 * 1j * np.pi * z / lambd * np.sqrt(1 - (lambd**2) * (U**2)-(lambd**2) * (V**2)))
 
     # plt.imshow(np.fft.ifftshift(np.real(H)))
     C11 = np.fft.fft2(E) * H
@@ -37,6 +37,7 @@ def hologram2FFT(E : np.ndarray, nx : float, ny: float, pasx: float, pasy: float
     OutputField = np.fft.ifft2(C11)
 
     return OutputField
+    # return np.fft.ifftshift(np.real(H))
 
 
 
