@@ -27,6 +27,7 @@ img = Image.frombuffer("I", [nx, ny],
 data = holo.FileReader('Mire_negative_position_80.holo').get_all_frames() #ici tu mets le nom du fichier que tu veux ouvrir
 data_reshape_1 = np.reshape(data[:, 0], (1024, 1024), order='C') #dans data[:, 0] ça veut dire que tu prends la première image du film (correspond à l'indice 0)
                                                               #(1024, 1024) c'est les dimensions des images, attention il faut les choisir intelligement les dimensions sont écrits dans le header normalement
+## Pour target1 (sans propagation)
 # plt.imshow(np.rot90(np.flipud(data_reshape_1), 4), aspect='auto', interpolation='none', origin='lower') #ça c'est juste pour afficher
 # plt.show()
 
@@ -50,19 +51,19 @@ I1 = 1/4 * 1j * (data_reshape_3 - data_reshape_1) + 1/4 * (data_reshape_4 - data
 I2 = 1/4 * (-data_reshape_1 + data_reshape_2 - data_reshape_3 + data_reshape_4)
 I3 = 1/4 * 1j * (data_reshape_1 - data_reshape_3) + 1/4 * (data_reshape_4 - data_reshape_2)
 
-# # Pour Mire_negative_position_80
+# # Pour target2
 for z in np.linspace(-0.010, -0.013, 10):
 
-# # Pour Mire_negative_position_160
+# # Pour target3
 # for z in np.linspace(-0.045, -0.048, 10):
 
-# # Pour Mire_negative_position_199
+# # Pour target4
 # for z in np.linspace(-0.047 -0.051, 10):
 #     OutputField = Hologram.hologram1FFT(I3, nx, ny, 5.5e-6, 5.5e-6, 658e-9, z)
     OutputField = Hologram.hologram2FFT(I3, nx, ny, 5.5e-6, 5.5e-6, 658e-9, z)
     DisplayedImage = np.absolute(OutputField)
     plt.imshow(DisplayedImage)
-    plt.title('reconstructed hologram')
+    plt.title('reconstructed hologram %1.3f' % z)
     plt.pause(1)
 
 
