@@ -24,7 +24,7 @@ img = Image.frombuffer("I", [nx, ny],
 
 # img = holo.FileReader('Mire_negative_position_.holo').get_all_frames()
 
-data = holo.FileReader('Mire_negative_position_80.holo').get_all_frames() #ici tu mets le nom du fichier que tu veux ouvrir
+data = holo.FileReader('target2.holo').get_all_frames() #ici tu mets le nom du fichier que tu veux ouvrir (targetN°
 data_reshape_1 = np.reshape(data[:, 0], (1024, 1024), order='C') #dans data[:, 0] ça veut dire que tu prends la première image du film (correspond à l'indice 0)
                                                               #(1024, 1024) c'est les dimensions des images, attention il faut les choisir intelligement les dimensions sont écrits dans le header normalement
 ## Pour target1 (sans propagation)
